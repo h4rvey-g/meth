@@ -25,7 +25,10 @@ group_list <- c(
     "Meth_Acq", "Meth_Ext", "Meth_Pre", "Meth_Rein",
     "Sal_Acq", "Sal_Ext", "Sal_Pre", "Sal_Rein"
 )
-get_network <- function(otu, group, physeq, i, r_cut) {
+cpp <- read_tsv("./species_cpp_p0.05.txt") %>%
+    filter(p <= 0.05, r >= 0.6) %>%
+    select(species)
+get_network <- function(otu, group, physeq, i, r_cut, cpp) {
     group_list <- c(
         "Meth_Acq", "Meth_Ext", "Meth_Pre", "Meth_Rein",
         "Sal_Acq", "Sal_Ext", "Sal_Pre", "Sal_Rein"
@@ -119,12 +122,15 @@ get_network <- function(otu, group, physeq, i, r_cut) {
     node <- result2[[1]]
     head(node)
 
-
+    # browser()
     dat <- result2[[2]]
     dat <- dat %>% mutate(
         domain = str_extract(OTU, "(?<=d_)[[:alpha:]]*(?=\\|+)"),
-        phylum = str_extract(OTU, "(?<=p_)[[:alpha:]]*(?=\\|+)")
+        phylum = str_extract(OTU, "(?<=p_)[[:alpha:]]*(?=\\|+)"),
+        cpp_tag = left_join(OTU %>% as_tibble(), cpp, by = c("value" = "species"), keep = T)$species %>%
+            str_extract("(?<=\\|)s_.*$")
     )
+
     head(dat)
     tem <- data.frame(mod = dat$model, col = dat$color) %>%
         dplyr::distinct(mod, .keep_all = TRUE)
@@ -163,7 +169,7 @@ get_network <- function(otu, group, physeq, i, r_cut) {
     p <- ggplot() +
         geom_segment(
             aes(x = X1, y = Y1, xend = X2, yend = Y2, color = color),
-            data = edge2, size = 1
+            data = edge2, size = .5
         ) +
         scale_color_discrete(
             name = "Correlation",
@@ -171,6 +177,7 @@ get_network <- function(otu, group, physeq, i, r_cut) {
         ) +
         new_scale_color() +
         geom_point(aes(X1, X2, shape = domain, color = phylum), data = dat, size = 2) +
+        geom_text(aes(X1, X2, label = cpp_tag), data = dat, size = 2, position = "dodge") +
         # scale_colour_manual(values = col) +
         scale_x_continuous(breaks = NULL) +
         scale_y_continuous(breaks = NULL) +
@@ -183,9 +190,10 @@ get_network <- function(otu, group, physeq, i, r_cut) {
         theme(panel.grid.minor = element_blank(), panel.grid.major = element_blank()) +
         labs(title = paste0(i))
     p
-    ggsave(paste0(i, ".pdf"), p, width = 16, height = 14)
+    ggsave(paste0(i, ".pdf"), p, width = 13, height = 12)
 }
-# get_network(otu=otu,group=group,physeq=ps,i=1,r_cut=r_cut[1])
-total_list <- list(rep(list(otu), 8), rep(list(group), 8), rep(list(ps), 8), 1:8, r_cut)
+# get_network(otu = otu, group = group, physeq = ps, i = 1, r_cut = r_cut[1], cpp = cpp)
+total_list <- list(rep(list(otu), 8), rep(list(group), 8), rep(list(ps), 8), 1:8,
+                   r_cut, rep(list(cpp), 8))
 pwalk(total_list, get_network)
 
