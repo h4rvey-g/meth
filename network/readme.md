@@ -19,9 +19,15 @@
 - SAL_REIN:0.330
 
 4.  网络相异性
+
     Meth_Pre - Meth_Acq
+
     [1] 0.9375042
+
     Meth_Acq - Meth_Ext
+
     [1] 0.9449303
+
     Meth_Ext - Meth_Rein
+
     [1] 0.895762
