@@ -6,6 +6,7 @@ library(microbiome)
 library(ggClusterNet)
 library(tidyverse)
 library(ggnewscale)
+library(ggrepel)
 #导入数据
 otu <- read_tsv("../tax.S.txt")
 otu_relative <- transform(otu %>% column_to_rownames("Taxonomy"), transform = "compositional")
@@ -184,7 +185,7 @@ get_network <- function(otu, group, physeq, i, r_cut, cpp) {
         ) +
         new_scale_color() +
         geom_point(aes(X1, X2, shape = domain, color = phylum), data = dat, size = 2) +
-        geom_text(aes(X1, X2, label = cpp_tag), data = dat, size = 2, position = "dodge") +
+        geom_text_repel(aes(X1, X2, label = cpp_tag), data = dat, size = 2, position = "dodge") +
         # scale_colour_manual(values = col) +
         scale_x_continuous(breaks = NULL) +
         scale_y_continuous(breaks = NULL) +
