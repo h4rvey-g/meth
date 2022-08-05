@@ -138,4 +138,5 @@ total_list <- list(
 # get_network(otu = otu, group = group, physeq = ps, i = 1, r_cut = r_cut[1], cpp = cpp)
 overlap <- pmap(total_list, get_network)
 names(overlap) <- group_list
-write_tsv(overlap, "./result/overlap.csv")
+temp <- plyr::ldply(overlap, rbind) %>%  as_tibble()
+write_csv(temp, "./result/overlap.csv")
