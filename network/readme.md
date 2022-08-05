@@ -1,6 +1,8 @@
-1.  看`ggnet.R`
-2.  根目录里的 pdf:r=0.6, p<0.05
-3.  `/不同r阈值`中 p<0.05, r 的 cutoff 如下
+# 网络
+## 网络图
+1.  代码见`ggnet.R`
+2.  结果在`./result`, 参数为`r=0.6, p<0.05`
+3.  `./result/不同r阈值`中 p<0.05, r 的 cutoff 如下
 
 - ACQ:0.680
 
@@ -17,17 +19,6 @@
 - SAL_PRE:0.410
 
 - SAL_REIN:0.330
-
-4.  网络相异性
-
-    Meth_Pre - Meth_Acq
-
-    [1] 0.9375042
-
-    Meth_Acq - Meth_Ext
-
-    [1] 0.9449303
-
-    Meth_Ext - Meth_Rein
-
-    [1] 0.895762
+## 网络相异性
+1.  代码见`./net_dissimilarity.R`
+2.  结果在`./result/dissimilarity.csv`
