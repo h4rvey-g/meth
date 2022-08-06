@@ -1,4 +1,4 @@
-genus	p	r
+genus	num	p	r
 d_Archaea|p_Crenarchaeota|c_Thermoprotei|o_Acidilobales|f_Caldisphaeraceae|g_Caldisphaera	5	0.0148475985945241	-0.536008544947546
 d_Archaea|p_Crenarchaeota|c_Thermoprotei|o_Desulfurococcales|f_Desulfurococcaceae|g_Desulfurococcus	1	0.0188106645189768	-0.519824976333621
 d_Archaea|p_Crenarchaeota|c_Thermoprotei|o_Desulfurococcales|f_Desulfurococcaceae|g_Thermosphaera	0	0.00824201702522636	-0.57319845577976

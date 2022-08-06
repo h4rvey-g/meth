@@ -1,0 +1,9 @@
+.id,1,2,3,4
+Meth_Acq,d_Bacteria|p_Firmicutes,d_Bacteria|p_Cyanobacteria,d_Bacteria|p_Chlamydiae,d_Archaea|p_Crenarchaeota
+Meth_Ext,d_Bacteria|p_Cyanobacteria,d_Bacteria|p_Chlamydiae,NA,NA
+Meth_Pre,d_Bacteria|p_Firmicutes,NA,NA,NA
+Meth_Rein,d_Bacteria|p_Firmicutes,d_Bacteria|p_Cyanobacteria,d_Bacteria|p_Chlamydiae,d_Archaea|p_Crenarchaeota
+Sal_Acq,d_Bacteria|p_Cyanobacteria,NA,NA,NA
+Sal_Ext,d_Bacteria|p_Firmicutes,d_Bacteria|p_Cyanobacteria,d_Archaea|p_Crenarchaeota,d_Bacteria|p_Chlamydiae
+Sal_Pre,d_Bacteria|p_Cyanobacteria,d_Bacteria|p_Chlamydiae,d_Archaea|p_Crenarchaeota,NA
+Sal_Rein,d_Bacteria|p_Firmicutes,d_Bacteria|p_Cyanobacteria,d_Bacteria|p_Chlamydiae,d_Archaea|p_Crenarchaeota

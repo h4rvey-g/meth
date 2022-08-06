@@ -1,4 +1,4 @@
-phylum	p	r
+phylum	num	p	r
 d_Archaea|p_Crenarchaeota	316	0.00257110727642848	-0.63609022556391
 d_Archaea|p_Euryarchaeota	3732	0.040457634341481	-0.461654135338346
 d_Bacteria|p_Aquificae	293	0.025021864609018	-0.499248120300752

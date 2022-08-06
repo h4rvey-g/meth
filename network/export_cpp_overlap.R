@@ -6,34 +6,41 @@ library(microbiome)
 library(ggClusterNet)
 library(tidyverse)
 library(ggnewscale)
-library(ggrepel)
 # 导入数据
-otu <- read_tsv("../tax.S.txt")
-otu_relative <- transform(otu %>% column_to_rownames("Taxonomy"), transform = "compositional")
-otu <- otu %>%
-    filter(Taxonomy %in%
-        (OTUtable::filter_taxa(otu_relative, abundance = 0.01, persistence = 3) %>% rownames())) %>%
-    column_to_rownames("Taxonomy") %>%
-    otu_table(taxa_are_rows = TRUE)
+otu_s <- read_tsv("../tax_count.S.norm")
+otu_p <- read_csv("../tax_count.P.norm.csv")
+otu_g <- read_csv("../tax_count.G.norm.csv")
 group <- read_tsv("../metadata.txt") %>%
     column_to_rownames("SampleID") %>%
     sample_data()
 # r cutoff可选择MENA推荐的值,也可都设为0.6;出图的区别不大
 # r_cut <- c(0.51, 0.51, 0.43, 0.33, 0.46, 0.68, 0.41, 0.33)
 r_cut <- rep(0.6, 8)
-ps <- phyloseq(otu, group) # 转为phyloseq格式
-ps <- prune_samples(x = ps, !grepl(".*Rein00[5-9]", sample_names(ps))) # 去除Rein005-Rein009的样本
 group_list <- c(
     "Meth_Acq", "Meth_Ext", "Meth_Pre", "Meth_Rein",
     "Sal_Acq", "Sal_Ext", "Sal_Pre", "Sal_Rein"
 )
-cpp <- read_tsv("./species_cpp_p0.05.txt") %>%
-    filter(p <= 0.05, r >= 0.6) %>%
+cpp_s <- read_tsv("./species_cpp_p0.05.txt") %>%
+    filter(p <= 0.05, abs(r) >= 0.6) %>%
     select(species)
+cpp_p <- read_tsv("./phylum_cpp_p0.05.txt") %>%
+    filter(p <= 0.05, abs(r) >= 0.6) %>%
+    select(phylum)
+cpp_g <- read_tsv("./genus_cpp_p0.05.txt") %>%
+    filter(p <= 0.05, abs(r) >= 0.6) %>%
+    select(genus)
 #------------------------------------------------------#
 # 主要的函数
 #------------------------------------------------------#
-get_network <- function(otu, group, physeq, i, r_cut, cpp) {
+get_network <- function(otu, group, i, r_cut, cpp) {
+    otu_relative <- transform(otu %>% column_to_rownames("Taxonomy"), transform = "compositional")
+    otu <- otu %>%
+        filter(Taxonomy %in%
+            (OTUtable::filter_taxa(otu_relative, abundance = 0.01, persistence = 3) %>% rownames())) %>%
+        column_to_rownames("Taxonomy") %>%
+        otu_table(taxa_are_rows = TRUE)
+    physeq <- phyloseq(otu, group) # 转为phyloseq格式
+    physeq <- prune_samples(x = physeq, !grepl(".*Rein00[5-9]", sample_names(physeq))) # 去除Rein005-Rein009的样本
     group_list <- c(
         "Meth_Acq", "Meth_Ext", "Meth_Pre", "Meth_Rein",
         "Sal_Acq", "Sal_Ext", "Sal_Pre", "Sal_Rein"
@@ -125,18 +132,24 @@ get_network <- function(otu, group, physeq, i, r_cut, cpp) {
         method = "cluster_fast_greedy",
         seed = 12
     )
-    # browser()
     # 添加domain, phylum, cpp交集
     dat <- result2[[2]]
-    overlap <- intersect(dat$OTU, cpp$species)
+    overlap <- intersect(dat$OTU, cpp[,1] %>%as_vector())
+    # browser()
     overlap
 }
-total_list <- list(
-    rep(list(otu), 8), rep(list(group), 8), rep(list(ps), 8), 1:8,
-    r_cut, rep(list(cpp), 8)
-)
-# get_network(otu = otu, group = group, physeq = ps, i = 1, r_cut = r_cut[1], cpp = cpp)
-overlap <- pmap(total_list, get_network)
-names(overlap) <- group_list
-temp <- plyr::ldply(overlap, rbind) %>%  as_tibble()
-write_csv(temp, "./result/overlap.csv")
+wrap_levels <- function(otu,group,r_cut,cpp,fname) {
+    total_list <- list(
+        rep(list(otu), 8), rep(list(group), 8), 1:8,
+        r_cut, rep(list(cpp), 8)
+    )
+    # get_network(otu = otu, group = group, physeq = ps, i = 1, r_cut = r_cut[1], cpp = cpp)
+    overlap <- pmap(total_list, get_network)
+    names(overlap) <- group_list
+    temp <- plyr::ldply(overlap, rbind) %>% as_tibble()
+    write_csv(temp, paste0("./result/overlap/overlap_", fname, ".csv"))
+}
+wrap_levels(otu = otu_s, group = group,r_cut = r_cut, cpp = cpp_s,fname="s")
+wrap_levels(otu = otu_p, group = group,r_cut = r_cut, cpp = cpp_p,fname="p")
+wrap_levels(otu = otu_g, group = group,r_cut = r_cut, cpp = cpp_g,fname="g")
+
