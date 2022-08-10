@@ -2,7 +2,7 @@
 ## 网络图
 1.  代码见`ggnet.R`
 2.  结果在`./result/network_plot`, 参数为`r=0.6, p<0.05`
-3.  `./result/不同r阈值`中 p<0.05, r 的 cutoff 如下
+3.  `./result/network_plot/不同r阈值`中 p<0.05, r 的 cutoff 如下
 
 - ACQ:0.680
 
