@@ -1,7 +1,7 @@
 # 网络
 ## 网络图
 1.  代码见`ggnet.R`
-2.  结果在`./result`, 参数为`r=0.6, p<0.05`
+2.  结果在`./result/network_plot`, 参数为`r=0.6, p<0.05`
 3.  `./result/不同r阈值`中 p<0.05, r 的 cutoff 如下
 
 - ACQ:0.680
@@ -24,4 +24,4 @@
 2.  结果在`./result/dissimilarity.csv`
 ## 网络与cpp的overlap
 1. 代码见`./export_cpp_overlap.R`
-2. 结果在`./result/overlap.csv`
+2. 结果在`./result/overlap/`

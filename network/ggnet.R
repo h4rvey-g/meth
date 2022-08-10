@@ -242,7 +242,7 @@ get_network <- function(otu, group, i, r_cut,fname) {
   # res = ZiPiPlot(igraph = igraph, method = "cluster_fast_greedy")
   # p <- res[[1]]
 }
-get_network(otu = otu, group = group, physeq = ps, i = 1, r_cut = r_cut[1])
+# get_network(otu = otu, group = group, physeq = ps, i = 1, r_cut = r_cut[1])
 # temp <- get_dissimilarity(otu = otu, group = group, physeq = ps, i = 1, r_cut = r_cut[1])
 # 将所有的数据转化为一个list, 方便使用purrr
 total_list <- list(rep(list(otu), 8),
