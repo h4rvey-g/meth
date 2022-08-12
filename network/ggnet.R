@@ -35,6 +35,8 @@ get_network <- function(otu, group, i, r_cut,fname) {
     otu_table(taxa_are_rows = TRUE)
   physeq <- phyloseq(otu, group) # 转为phyloseq格式
   physeq <- prune_samples(x = physeq, !grepl(".*Rein00[5-9]", sample_names(physeq))) # 去除Rein005-Rein009的样本
+  topsp <- names(sort(taxa_sums(physeq), TRUE)[1:500])
+  physeq <- prune_taxa(topsp, physeq)
   group_list <- c(
     "Meth_Acq", "Meth_Ext", "Meth_Pre", "Meth_Rein",
     "Sal_Acq", "Sal_Ext", "Sal_Pre", "Sal_Rein"
@@ -47,7 +49,7 @@ get_network <- function(otu, group, i, r_cut,fname) {
   # 计算相关性
   result <- cor_Big_micro(
     ps = physeq,
-    N = nrow(otu),
+    N = ntaxa(physeq),
     r.threshold = r_cut,
     p.threshold = 0.05,
     method = "spearman"
@@ -244,12 +246,7 @@ get_network <- function(otu, group, i, r_cut,fname) {
 }
 # get_network(otu = otu, group = group, physeq = ps, i = 1, r_cut = r_cut[1])
 # temp <- get_dissimilarity(otu = otu, group = group, physeq = ps, i = 1, r_cut = r_cut[1])
-# 将所有的数据转化为一个list, 方便使用purrr
-total_list <- list(rep(list(otu), 8),
-                   rep(list(group), 8),
-                   rep(list(ps), 8),
-                   1:8,
-                   r_cut)
+
 # ------------------------------------------------------------
 # 进行网络的计算
 # ------------------------------------------------------------
