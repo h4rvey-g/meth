@@ -29,8 +29,6 @@ group_list <- c(
 get_network <- function(otu, group, i, r_cut,fname) {
   otu_relative <- transform(otu %>% column_to_rownames("Taxonomy"), transform = "compositional")
   otu <- otu %>%
-    filter(Taxonomy %in%
-             (OTUtable::filter_taxa(otu_relative, abundance = 0.01, persistence = 3) %>% rownames())) %>%
     column_to_rownames("Taxonomy") %>%
     otu_table(taxa_are_rows = TRUE)
   physeq <- phyloseq(otu, group) # 转为phyloseq格式
