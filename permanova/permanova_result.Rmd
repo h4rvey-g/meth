@@ -1,0 +1,38 @@
+---
+title: "Results"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r packages, message=FALSE}
+library(vegan)
+library(tidyverse)
+library(reshape2)
+library(scales)
+library(psych)
+otu_s <- read_tsv("../tax_count.S.norm") %>%
+  select(-matches(".*Rein00([6-9]|10)|Sal.*")) %>%
+  column_to_rownames("Taxonomy") %>% t()
+group <- read_tsv("../metadata.txt") %>% 
+  filter(.,!grepl(".*Rein00([6-9]|10)|Sal.*", SampleID)) %>% 
+  mutate(sample=SampleID) %>% 
+  column_to_rownames("SampleID")
+```
+自变量为时期
+```{r code}
+adonis2(otu_s ~ Group,
+        group,
+        permutations = 999,
+        distance = 'bray')
+```
+自变量为每个个体，结果显示No residual component，不太清楚原因
+```{r}
+adonis2(otu_s ~ sample,
+        group,
+        permutations = 999,
+        distance = 'bray')
+```
+
+
