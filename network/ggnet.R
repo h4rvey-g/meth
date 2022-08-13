@@ -34,7 +34,7 @@ get_network <- function(otu, group, i, r_cut,fname) {
     column_to_rownames("Taxonomy") %>%
     otu_table(taxa_are_rows = TRUE)
   physeq <- phyloseq(otu, group) # 转为phyloseq格式
-  physeq <- prune_samples(x = physeq, !grepl(".*Rein00[5-9]", sample_names(physeq))) # 去除Rein005-Rein009的样本
+  physeq <- prune_samples(x = physeq, !grepl(".*Rein00([6-9]|10)", sample_names(physeq))) # 去除Rein005-Rein009的样本
   group_list <- c(
     "Meth_Acq", "Meth_Ext", "Meth_Pre", "Meth_Rein",
     "Sal_Acq", "Sal_Ext", "Sal_Pre", "Sal_Rein"
