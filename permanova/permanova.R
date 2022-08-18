@@ -8,13 +8,13 @@ otu_s <- read_tsv("../tax_count.S.norm") %>%
   column_to_rownames("Taxonomy") %>% t()
 group <- read_tsv("../metadata.txt") %>% 
   filter(.,!grepl(".*Rein00([6-9]|10)|Sal.*", SampleID)) %>% 
-  mutate(sample=SampleID) %>% 
+  # mutate(sample=SampleID) %>%
   column_to_rownames("SampleID")
 adonis2(otu_s ~ Group,
         group,
         permutations = 999,
         distance = 'bray')
-adonis2(otu_s ~ sample,
+adonis2(otu_s ~ Replicate,
         group,
         permutations = 999,
         distance = 'bray')

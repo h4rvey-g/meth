@@ -17,7 +17,6 @@ otu_s <- read_tsv("../tax_count.S.norm") %>%
   column_to_rownames("Taxonomy") %>% t()
 group <- read_tsv("../metadata.txt") %>% 
   filter(.,!grepl(".*Rein00([6-9]|10)|Sal.*", SampleID)) %>% 
-  mutate(sample=SampleID) %>% 
   column_to_rownames("SampleID")
 ```
 自变量为时期
@@ -27,9 +26,9 @@ adonis2(otu_s ~ Group,
         permutations = 999,
         distance = 'bray')
 ```
-自变量为每个个体，结果显示No residual component，不太清楚原因
+自变量为每个个体
 ```{r}
-adonis2(otu_s ~ sample,
+adonis2(otu_s ~ Replicate,
         group,
         permutations = 999,
         distance = 'bray')
