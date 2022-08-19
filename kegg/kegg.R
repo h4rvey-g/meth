@@ -8,7 +8,7 @@ dat <- read_xlsx("./KEGG enrichment.xlsx") %>%
     GeneRatio = parse_ratio(GeneRatio)
   ) %>%
   arrange(level)
-p <- ggplot(dat, aes(x = GeneRatio, y = interaction(Level_1, Level_2, Level_3, sep = "&"))) +
+p <- ggplot(dat, aes(x = GeneRatio, y = interaction(Level_3, Level_2, Level_1, sep = "&"))) +
   geom_point(aes(size = Count, color = -log10(pvalue))) +
   guides(
     y = guide_axis_nested(delim = "&")
