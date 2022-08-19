@@ -27,6 +27,7 @@ otu_collapse[otu_collapse>0] <- 1
 
 ```{r}
 fit_orig <- euler(otu_collapse)
+fit_orig
 fill_color <- brewer.pal(4,"Set1") 
 plot(fit_orig, quantities = T,
      fills = list(fill = fill_color, alpha = 0.9),
