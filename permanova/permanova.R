@@ -18,3 +18,7 @@ adonis2(otu_s ~ Replicate,
         group,
         permutations = 999,
         distance = 'bray')
+adonis2(otu_s ~ CPP_phase,
+        group,
+        permutations = 999,
+        distance = 'bray')
