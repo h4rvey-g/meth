@@ -1,0 +1,6 @@
+Rscript beta_pcoa.R --input beta_diversity/bray_curtis.txt --design metadata_merge.txt --group Group --width 89 --height 59 --output beta_diversity/pcoa_bray_curtis.pdf 
+Rscript beta_pcoa.R --input beta_diversity/bray_curtis_binary.txt --design metadata_merge.txt --group Group --width 89 --height 59 --output beta_diversity/pcoa_bray_curtis_binary.pdf
+Rscript beta_pcoa.R --input beta_diversity/euclidean.txt --design metadata_merge.txt --group Group --width 89 --height 59 --output beta_diversity/pcoa_euclidean.pdf
+Rscript beta_pcoa.R --input beta_diversity/jaccard.txt --design metadata_merge.txt --group Group --width 89 --height 59 --output beta_diversity/pcoa_jaccard.pdf
+Rscript beta_pcoa.R --input beta_diversity/jaccard_binary.txt --design metadata_merge.txt --group Group --width 89 --height 59 --output beta_diversity/pcoa_jaccard_binary.pdf
+Rscript beta_pcoa.R --input beta_diversity/manhatten.txt --design metadata_merge.txt --group Group --width 89 --height 59 --output beta_diversity/pcoa_manhatten.pdf
