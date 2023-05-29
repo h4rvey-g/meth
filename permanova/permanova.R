@@ -18,7 +18,15 @@ adonis2(otu_s ~ Replicate,
         group,
         permutations = 999,
         distance = 'bray')
-adonis2(otu_s ~ CPP_phase,
-        group,
+# calculate permanova based on phase, only in SAL group
+otu_s_2 <- read_tsv("../tax_count.S.norm") %>%
+  select(-matches(".*Rein00([6-9]|10)|Meth.*")) %>%
+  column_to_rownames("Taxonomy") %>% t()
+group_2 <- read_tsv("../metadata.txt") %>% 
+  filter(.,!grepl(".*Rein00([6-9]|10)|Meth.*", SampleID)) %>% 
+  # mutate(sample=SampleID) %>%
+  column_to_rownames("SampleID")
+adonis2(otu_s_2 ~ CPP_phase,
+        group_2,
         permutations = 999,
         distance = 'bray')
